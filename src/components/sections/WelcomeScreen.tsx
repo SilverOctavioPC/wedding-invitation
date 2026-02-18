@@ -14,6 +14,7 @@ const WelcomeScreen: React.FC = () => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, y: -50, transition: { duration: 1, ease: "easeInOut" } }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-wedding-sand text-wedding-charcoal overflow-hidden"
+          onTouchMove={(e) => e.preventDefault()} // Critical for iOS: blocks scroll gestures
         >
           {/* Golden Floating Particles */}
           <GoldenParticles />
