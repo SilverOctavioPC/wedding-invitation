@@ -61,7 +61,7 @@ const MusicPlayer: React.FC = () => {
           {/* Pulse ring animation when playing */}
           {isMusicPlaying && (
             <motion.div
-              className="absolute inset-0 rounded-full border-2 border-wedding-olive/40"
+              className="absolute inset-0 rounded-full border-2 border-wedding-olive/40 pointer-events-none"
               animate={{ scale: [1, 1.5], opacity: [0.6, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
             />
