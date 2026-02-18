@@ -47,7 +47,7 @@ const StorySection: React.FC = () => {
               <div className={`w-full md:w-1/2 pl-12 md:pl-0 mt-6 md:mt-0 ${index % 2 === 0 ? 'md:pl-12' : 'md:pr-12'}`}>
                 <div className="relative overflow-hidden shadow-xl rounded-sm group">
                   <div className="absolute inset-0 bg-wedding-olive/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                  <img src={event.image} alt={event.title} className="w-full h-64 md:h-80 object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                  <img src={event.image} alt={event.title} loading="lazy" className="w-full h-64 md:h-80 object-cover transform group-hover:scale-105 transition-transform duration-700" />
                 </div>
               </div>
             </motion.div>
