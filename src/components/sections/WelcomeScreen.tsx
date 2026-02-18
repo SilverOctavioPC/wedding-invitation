@@ -45,9 +45,11 @@ const WelcomeScreen: React.FC = () => {
               Estás invitado a nuestra boda
             </p>
 
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-wedding-charcoal mb-4 leading-tight">
+            <h1 className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-wedding-charcoal mb-4 leading-tight">
               {COUPLE_NAMES.bride}
-              <span className="text-wedding-gold text-3xl md:text-4xl align-middle mx-3 font-serif italic">&</span>
+              <br className="sm:hidden" />
+              <span className="text-wedding-gold text-2xl sm:text-3xl md:text-4xl align-middle mx-2 sm:mx-3 font-serif italic">&</span>
+              <br className="sm:hidden" />
               {COUPLE_NAMES.groom}
             </h1>
 

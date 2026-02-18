@@ -20,7 +20,7 @@ const Countdown: React.FC = () => {
   const timeLeft = useCountdown(WEDDING_DATE);
 
   return (
-    <section className="py-20 bg-wedding-beige flex flex-col items-center justify-center">
+    <section className="py-16 md:py-20 px-4 bg-wedding-beige flex flex-col items-center justify-center">
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -28,7 +28,7 @@ const Countdown: React.FC = () => {
         viewport={{ once: true }}
         className="text-center"
       >
-        <h3 className="font-serif text-2xl md:text-3xl text-wedding-olive mb-10 italic">
+        <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-wedding-olive mb-8 md:mb-10 italic px-2">
           Contando los segundos para el gran día
         </h3>
         

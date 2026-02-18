@@ -5,7 +5,7 @@ import { StoryEvent } from '@/types';
 
 const StorySection: React.FC = () => {
   return (
-    <section className="py-24 px-4 bg-white overflow-hidden">
+    <section className="py-16 md:py-24 px-4 bg-white overflow-hidden">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -14,7 +14,7 @@ const StorySection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="font-display text-4xl md:text-5xl text-wedding-charcoal mb-4">Nuestra Historia</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-wedding-charcoal mb-4">Nuestra Historia</h2>
           <div className="w-20 h-1 bg-wedding-gold mx-auto"></div>
         </motion.div>
 

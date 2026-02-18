@@ -13,7 +13,7 @@ const FinalMessage: React.FC = () => {
   const bgY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
 
   return (
-    <footer ref={sectionRef} className="relative h-[80vh] flex flex-col items-center justify-center text-white overflow-hidden text-center bg-wedding-charcoal">
+    <footer ref={sectionRef} className="relative h-[70vh] md:h-[80vh] flex flex-col items-center justify-center text-white overflow-hidden text-center bg-wedding-charcoal">
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <img 
@@ -38,7 +38,7 @@ const FinalMessage: React.FC = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
           viewport={{ once: true }}
-          className="font-serif italic text-xl md:text-3xl mb-8 text-wedding-beige/90 leading-relaxed"
+          className="font-serif italic text-lg sm:text-xl md:text-3xl mb-6 md:mb-8 text-wedding-beige/90 leading-relaxed"
         >
           "El amor no hace girar al mundo. <br className="hidden md:block" /> El amor es lo que hace que el viaje valga la pena."
         </motion.p>
@@ -56,7 +56,7 @@ const FinalMessage: React.FC = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl text-wedding-gold mb-8"
+          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-wedding-gold mb-6 md:mb-8"
         >
           ¡Los esperamos!
         </motion.h2>

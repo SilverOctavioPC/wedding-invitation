@@ -18,7 +18,7 @@ const GiftSection: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-wedding-beige">
+    <section className="py-16 md:py-24 bg-wedding-beige">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ const GiftSection: React.FC = () => {
           viewport={{ once: true }}
         >
           <Gift className="w-12 h-12 text-wedding-gold mx-auto mb-6" strokeWidth={1} />
-          <h2 className="font-display text-4xl text-wedding-charcoal mb-6">Mesa de Regalos</h2>
+          <h2 className="font-display text-3xl sm:text-4xl text-wedding-charcoal mb-6">Mesa de Regalos</h2>
           
           <p className="font-sans text-gray-600 mb-10 max-w-xl mx-auto leading-relaxed">
             Su presencia es nuestro mejor regalo. Sin embargo, si desean tener un detalle con nosotros, 

@@ -7,7 +7,7 @@ import { EventDetail } from '@/types';
 const EventCard = ({ detail, type }: { detail: EventDetail, type: string }) => (
   <motion.div 
     whileHover={{ y: -10 }}
-    className="bg-white p-8 md:p-12 shadow-lg border-t-4 border-wedding-gold w-full md:w-5/12 mx-4 mb-8 md:mb-0 relative"
+    className="bg-white p-6 sm:p-8 md:p-12 shadow-lg border-t-4 border-wedding-gold w-full md:w-5/12 mx-0 md:mx-4 mb-8 md:mb-0 relative"
   >
     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-wedding-beige p-3 rounded-full border border-wedding-gold/30">
         {type === 'Ceremony' ? (
@@ -52,7 +52,7 @@ const EventCard = ({ detail, type }: { detail: EventDetail, type: string }) => (
 
 const EventDetails: React.FC = () => {
   return (
-    <section className="py-24 bg-wedding-beige">
+    <section className="py-16 md:py-24 bg-wedding-beige">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -60,7 +60,7 @@ const EventDetails: React.FC = () => {
           transition={{ duration: 1 }}
           className="text-center mb-16"
         >
-          <h2 className="font-display text-4xl md:text-5xl text-wedding-charcoal mb-4">Detalles del Evento</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-wedding-charcoal mb-4">Detalles del Evento</h2>
           <p className="font-serif italic text-gray-500">Acompañanos a celebrar</p>
         </motion.div>
 

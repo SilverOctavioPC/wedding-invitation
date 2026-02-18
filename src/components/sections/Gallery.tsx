@@ -7,14 +7,14 @@ const Gallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   return (
-    <section className="py-24 px-4 bg-white">
+    <section className="py-16 md:py-24 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             className="text-center mb-16"
         >
-          <h2 className="font-display text-4xl md:text-5xl text-wedding-charcoal mb-4">Momentos</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-wedding-charcoal mb-4">Momentos</h2>
           <div className="w-20 h-1 bg-wedding-gold mx-auto"></div>
         </motion.div>
 

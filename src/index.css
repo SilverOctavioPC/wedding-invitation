@@ -18,10 +18,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     @apply antialiased text-wedding-charcoal bg-wedding-beige;
+    overflow-x: hidden;
   }
 
   /* Elegant scrollbar */

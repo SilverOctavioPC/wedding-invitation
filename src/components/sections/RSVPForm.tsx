@@ -55,7 +55,7 @@ const RSVPForm: React.FC = () => {
   }
 
   return (
-    <section className="py-24 bg-white relative">
+    <section className="py-16 md:py-24 bg-white relative">
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ const RSVPForm: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
         >
-          <h2 className="font-display text-4xl md:text-5xl text-wedding-charcoal mb-4">RSVP</h2>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-wedding-charcoal mb-4">RSVP</h2>
           <p className="font-serif italic text-gray-500">Por favor confirma tu asistencia antes del 1 de Julio</p>
         </motion.div>
 
@@ -95,18 +95,18 @@ const RSVPForm: React.FC = () => {
 
           <div className="flex flex-col items-center justify-center py-4">
               <label className="font-sans text-xs uppercase tracking-widest text-gray-500 mb-6">¿Asistirás?</label>
-              <div className="flex gap-6">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
                   <button 
                     type="button"
                     onClick={() => handleAttendanceChange('yes')}
-                    className={`px-8 py-3 border transition-all duration-300 ${formData.attending === 'yes' ? 'bg-wedding-olive text-white border-wedding-olive' : 'border-gray-300 text-gray-500 hover:border-wedding-olive'}`}
+                    className={`px-6 sm:px-8 py-3 border transition-all duration-300 text-sm sm:text-base ${formData.attending === 'yes' ? 'bg-wedding-olive text-white border-wedding-olive' : 'border-gray-300 text-gray-500 hover:border-wedding-olive'}`}
                   >
                       Sí, asistiré
                   </button>
                   <button 
                     type="button"
                     onClick={() => handleAttendanceChange('no')}
-                    className={`px-8 py-3 border transition-all duration-300 ${formData.attending === 'no' ? 'bg-wedding-charcoal text-white border-wedding-charcoal' : 'border-gray-300 text-gray-500 hover:border-wedding-charcoal'}`}
+                    className={`px-6 sm:px-8 py-3 border transition-all duration-300 text-sm sm:text-base ${formData.attending === 'no' ? 'bg-wedding-charcoal text-white border-wedding-charcoal' : 'border-gray-300 text-gray-500 hover:border-wedding-charcoal'}`}
                   >
                       No podré asistir
                   </button>

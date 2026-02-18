@@ -42,7 +42,7 @@ const HeroSection: React.FC = () => {
             Nos Casamos
           </motion.p>
 
-          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl mb-6 tracking-wide">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-9xl mb-6 tracking-wide">
             <motion.span
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -55,7 +55,7 @@ const HeroSection: React.FC = () => {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="text-3xl md:text-5xl font-serif italic text-wedding-gold align-middle mx-3 inline-block"
+              className="text-2xl sm:text-3xl md:text-5xl font-serif italic text-wedding-gold align-middle mx-2 sm:mx-3 inline-block"
             >
               &
             </motion.span>
