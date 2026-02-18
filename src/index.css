@@ -16,7 +16,26 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply antialiased text-wedding-charcoal bg-wedding-beige;
+  }
+
+  /* Elegant scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F5F5F0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D4AF37;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #B8962E;
   }
 }

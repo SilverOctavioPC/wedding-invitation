@@ -1,6 +1,6 @@
 import React from 'react';
 import { WeddingProvider } from '@/context';
-import { ErrorBoundary, LoadingSpinner, MusicPlayer } from '@/components/ui';
+import { ErrorBoundary, LoadingSpinner, MusicPlayer, SectionDivider } from '@/components/ui';
 
 // Lazy load section components for code splitting
 const WelcomeScreen = React.lazy(() => import('@/components/sections/WelcomeScreen'));
@@ -26,12 +26,40 @@ function App() {
           {/* Main Content */}
           <React.Suspense fallback={<div className="h-screen flex items-center justify-center">Cargando...</div>}>
             <HeroSection />
+
+            {/* Hero → Countdown: dark to beige */}
+            <SectionDivider variant="elegant" fillTop="#36454F" fillBottom="#F5F5F0" />
+
             <Countdown />
+
+            {/* Countdown → Story: beige to white */}
+            <SectionDivider variant="wave" fillTop="#F5F5F0" fillBottom="#FFFFFF" />
+
             <StorySection />
+
+            {/* Story → EventDetails: white to beige */}
+            <SectionDivider variant="curve" fillTop="#FFFFFF" fillBottom="#F5F5F0" />
+
             <EventDetails />
+
+            {/* EventDetails → Gallery: beige to white */}
+            <SectionDivider variant="wave" fillTop="#F5F5F0" fillBottom="#FFFFFF" />
+
             <Gallery />
+
+            {/* Gallery → GiftSection: white to beige */}
+            <SectionDivider variant="elegant" fillTop="#FFFFFF" fillBottom="#F5F5F0" />
+
             <GiftSection />
+
+            {/* GiftSection → RSVP: beige to white */}
+            <SectionDivider variant="curve" fillTop="#F5F5F0" fillBottom="#FFFFFF" />
+
             <RSVPForm />
+
+            {/* RSVP → FinalMessage: white to dark */}
+            <SectionDivider variant="elegant" fillTop="#FFFFFF" fillBottom="#36454F" />
+
             <FinalMessage />
           </React.Suspense>
         </main>
