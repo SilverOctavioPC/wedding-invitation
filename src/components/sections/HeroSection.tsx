@@ -88,19 +88,12 @@ const HeroSection: React.FC = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/70 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
+      <motion.div
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white/70"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="text-xs tracking-[0.3em] uppercase font-sans">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown size={24} strokeWidth={1} />
-        </motion.div>
+        <ArrowDown size={24} strokeWidth={1} />
       </motion.div>
     </section>
   );
