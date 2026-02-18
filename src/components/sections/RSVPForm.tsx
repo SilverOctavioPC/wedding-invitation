@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RSVPData } from '../types';
+import { RSVPData } from '@/types';
 import { Check, Loader2, AlertCircle } from 'lucide-react';
 
 const RSVPForm: React.FC = () => {

@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  /* Wedding Colors */
+  --color-wedding-beige: #F5F5F0;
+  --color-wedding-gold: #D4AF37;
+  --color-wedding-olive: #556B2F;
+  --color-wedding-charcoal: #36454F;
+  --color-wedding-rose: #E6D7D5;
+  --color-wedding-sand: #E8E6E1;
+
+  /* Font Families */
+  --font-serif: "Playfair Display", serif;
+  --font-display: "Cinzel", serif;
+  --font-sans: "Lato", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-wedding-charcoal bg-wedding-beige;
+  }
+}

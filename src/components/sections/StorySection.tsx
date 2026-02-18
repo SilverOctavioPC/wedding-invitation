@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { STORY_DATA } from '../constants';
-import { StoryEvent } from '../types';
+import { STORY_DATA } from '@/constants';
+import { StoryEvent } from '@/types';
 
 const StorySection: React.FC = () => {
   return (

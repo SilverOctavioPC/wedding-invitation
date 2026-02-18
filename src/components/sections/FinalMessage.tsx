@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { COUPLE_NAMES } from '../constants';
+import { COUPLE_NAMES } from '@/constants';
 
 const FinalMessage: React.FC = () => {
   return (

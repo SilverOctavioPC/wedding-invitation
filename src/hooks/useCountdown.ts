@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { TimeLeft } from '../types';
+import { useState, useEffect, useCallback } from 'react';
+import { TimeLeft } from '@/types';
 
 export const useCountdown = (targetDate: string) => {
-  const calculateTimeLeft = (): TimeLeft => {
+  const calculateTimeLeft = useCallback((): TimeLeft => {
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft: TimeLeft = {
       days: 0,
@@ -21,7 +21,7 @@ export const useCountdown = (targetDate: string) => {
     }
 
     return timeLeft;
-  };
+  }, [targetDate]);
 
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
@@ -31,7 +31,8 @@ export const useCountdown = (targetDate: string) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [calculateTimeLeft]);
 
   return timeLeft;
 };
+

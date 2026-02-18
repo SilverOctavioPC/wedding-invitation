@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GALLERY_IMAGES } from '../constants';
+import { GALLERY_IMAGES } from '@/constants';
 import { X } from 'lucide-react';
 
 const Gallery: React.FC = () => {

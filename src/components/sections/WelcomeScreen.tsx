@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useWedding } from '../context/WeddingContext';
-import { COUPLE_NAMES } from '../constants';
+import { useWedding } from '@/context/WeddingContext';
+import { COUPLE_NAMES } from '@/constants';
 
 const WelcomeScreen: React.FC = () => {
   const { isEntered, enterSite } = useWedding();

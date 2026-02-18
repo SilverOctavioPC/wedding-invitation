@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { COUPLE_NAMES, WEDDING_DATE } from '../constants';
+import { COUPLE_NAMES, WEDDING_DATE } from '@/constants';
 import { ArrowDown } from 'lucide-react';
 
 const HeroSection: React.FC = () => {

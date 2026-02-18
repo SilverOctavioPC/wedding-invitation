@@ -1,23 +1,23 @@
 import React from 'react';
-import { useCountdown } from '../hooks/useCountdown';
-import { WEDDING_DATE } from '../constants';
+import { useCountdown } from '@/hooks/useCountdown';
+import { WEDDING_DATE } from '@/constants';
 import { motion } from 'framer-motion';
+
+const TimeUnit = ({ value, label }: { value: number; label: string }) => (
+  <div className="flex flex-col items-center mx-2 md:mx-6">
+    <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border border-wedding-olive/30 bg-white shadow-sm rounded-sm mb-2">
+      <span className="font-display text-2xl md:text-4xl text-wedding-charcoal">
+        {String(value).padStart(2, '0')}
+      </span>
+    </div>
+    <span className="font-serif italic text-xs md:text-sm text-wedding-olive tracking-widest lowercase">
+      {label}
+    </span>
+  </div>
+);
 
 const Countdown: React.FC = () => {
   const timeLeft = useCountdown(WEDDING_DATE);
-  
-  const TimeUnit = ({ value, label }: { value: number, label: string }) => (
-    <div className="flex flex-col items-center mx-2 md:mx-6">
-      <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border border-wedding-olive/30 bg-white shadow-sm rounded-sm mb-2">
-        <span className="font-display text-2xl md:text-4xl text-wedding-charcoal">
-          {String(value).padStart(2, '0')}
-        </span>
-      </div>
-      <span className="font-serif italic text-xs md:text-sm text-wedding-olive tracking-widest lowercase">
-        {label}
-      </span>
-    </div>
-  );
 
   return (
     <section className="py-20 bg-wedding-beige flex flex-col items-center justify-center">

@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { EVENTS } from '../constants';
+import { EVENTS } from '@/constants';
 import { MapPin, Clock, Calendar } from 'lucide-react';
-import { EventDetail } from '../types';
+import { EventDetail } from '@/types';
 
 const EventCard = ({ detail, type }: { detail: EventDetail, type: string }) => (
   <motion.div 

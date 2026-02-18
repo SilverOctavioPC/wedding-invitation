@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sofia-alejandro-boda.com/sitemap.xml

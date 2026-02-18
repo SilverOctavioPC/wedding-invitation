@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, PropsWithChildren } from 'react';
+import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
 
 interface WeddingContextType {
   isEntered: boolean;
@@ -9,7 +9,7 @@ interface WeddingContextType {
 
 const WeddingContext = createContext<WeddingContextType | undefined>(undefined);
 
-export const WeddingProvider = ({ children }: PropsWithChildren<{}>) => {
+export const WeddingProvider = ({ children }: PropsWithChildren) => {
   const [isEntered, setIsEntered] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
