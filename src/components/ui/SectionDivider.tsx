@@ -33,10 +33,10 @@ const SectionDivider: React.FC<SectionDividerProps> = ({
         className="w-full h-[60px] md:h-[80px] lg:h-[100px]"
         fill="none"
       >
-        {/* Background fill */}
-        <rect width="1920" height="192" fill={fillBottom} />
-        {/* Wave shape */}
-        <path d={paths[variant]} fill={fillTop} />
+        {/* Background fill - should match the TOP section color because the path draws the BOTTOM section color */}
+        <rect width="1920" height="192" fill={fillTop} />
+        {/* Wave shape - draws the bottom part, so it should be filled with the BOTTOM section color */}
+        <path d={paths[variant]} fill={fillBottom} />
       </svg>
     </div>
   );

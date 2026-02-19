@@ -22,8 +22,8 @@ const FinalMessage: React.FC = () => {
           className="w-full h-[120%] object-cover" 
           loading="lazy"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
+        {/* Gradient overlay - matching image height to ensure full coverage during parallax */}
+        <div className="absolute top-0 left-0 w-full h-[120%] bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
       </motion.div>
 
       <motion.div 
@@ -72,7 +72,7 @@ const FinalMessage: React.FC = () => {
         </motion.div>
       </motion.div>
 
-      <div className="absolute bottom-6 w-full text-center text-white/30 text-xs font-sans z-10 tracking-widest">
+      <div className="absolute bottom-6 w-full text-center text-white/90 text-sm font-sans z-10 tracking-widest font-medium drop-shadow-md">
         Hecho con ❤️ para nuestra boda
       </div>
     </footer>
