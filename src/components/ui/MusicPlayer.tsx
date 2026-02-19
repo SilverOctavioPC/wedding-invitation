@@ -22,7 +22,7 @@ const MusicPlayer: React.FC = () => {
   return (
     <>
       {/* Audio element is always in the DOM so audioRef is available for enterSite() */}
-      <audio ref={audioRef} loop preload="none">
+      <audio ref={audioRef} loop preload="auto">
         <source src={import.meta.env.VITE_AUDIO_URL} type="audio/mpeg" />
       </audio>
 
