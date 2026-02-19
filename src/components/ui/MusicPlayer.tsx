@@ -10,7 +10,8 @@ const MusicPlayer: React.FC = () => {
   useEffect(() => {
     if (audioRef.current) {
       if (isMusicPlaying) {
-        audioRef.current.play().catch(() => {
+        audioRef.current.play().catch((e) => {
+          console.error("Autoplay blocked or playback failed:", e);
           // Autoplay blocked — user can toggle manually
         });
       } else {
@@ -22,7 +23,14 @@ const MusicPlayer: React.FC = () => {
   return (
     <>
       {/* Audio element is always in the DOM so audioRef is available for enterSite() */}
-      <audio ref={audioRef} loop preload="auto">
+      <audio 
+        ref={audioRef} 
+        loop 
+        preload="auto"
+        onError={(e) => console.error("Audio loading error:", e.currentTarget.error)}
+        onCanPlay={() => console.log("Audio ready to play")}
+        onPlay={() => console.log("Audio started playing")}
+      >
         <source src={import.meta.env.VITE_AUDIO_URL} type="audio/mpeg" />
       </audio>
 
