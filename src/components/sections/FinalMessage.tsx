@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { COUPLE_NAMES } from '@/constants';
+import { DividerOrnament } from '@/components/ui/WeddingOrnaments';
 
 const FinalMessage: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -26,6 +27,8 @@ const FinalMessage: React.FC = () => {
         <div className="absolute top-0 left-0 w-full h-[120%] bg-gradient-to-t from-black/70 via-black/40 to-black/30" />
       </motion.div>
 
+
+
       <motion.div 
         className="relative z-10 px-6 max-w-4xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
@@ -44,19 +47,21 @@ const FinalMessage: React.FC = () => {
         </motion.p>
 
         <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: '8rem' }}
+          initial={{ scaleX: 0, opacity: 0 }}
+          whileInView={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 1, delay: 0.6 }}
           viewport={{ once: true }}
-          className="h-px bg-wedding-gold mx-auto mb-8"
-        />
+          className="mb-8 flex justify-center"
+        >
+          <DividerOrnament className="text-wedding-gold/80 w-48 md:w-64 drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" />
+        </motion.div>
         
         <motion.h2
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-wedding-gold mb-6 md:mb-8"
+          className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-wedding-gold mb-6 md:mb-8 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
         >
           ¡Los esperamos!
         </motion.h2>
