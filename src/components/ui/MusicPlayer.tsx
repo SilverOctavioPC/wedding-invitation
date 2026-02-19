@@ -12,8 +12,8 @@ const MusicPlayer: React.FC = () => {
   useEffect(() => {
     if (audioRef.current) {
       if (isMusicPlaying) {
-        audioRef.current.play().catch((e) => {
-          console.error("Autoplay blocked or playback failed:", e);
+        audioRef.current.play().catch(() => {
+          // Autoplay blocked — user can toggle manually
         });
       } else {
         audioRef.current.pause();
@@ -28,12 +28,6 @@ const MusicPlayer: React.FC = () => {
         ref={audioRef} 
         loop 
         preload="auto"
-        onError={(e) => {
-          console.error("Audio loading error:", e);
-          console.error("Audio src was:", e.currentTarget.src);
-        }}
-        onCanPlay={() => console.log("Audio ready to play")}
-        onPlay={() => console.log("Audio started playing")}
       >
         <source src={weddingSong} type="audio/mpeg" />
       </audio>

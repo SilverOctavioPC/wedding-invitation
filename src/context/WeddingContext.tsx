@@ -36,8 +36,7 @@ export const WeddingProvider = ({ children }: PropsWithChildren) => {
 
     // Play audio directly in the click handler call stack (required for mobile)
     if (audioRef.current) {
-      audioRef.current.play().catch((e) => {
-        console.error("EnterSite play failed:", e);
+      audioRef.current.play().catch(() => {
         // Autoplay still blocked on some browsers — user can toggle manually
       });
     }
