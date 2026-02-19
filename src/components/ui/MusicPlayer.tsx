@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX } from 'lucide-react';
 import { useWedding } from '@/context';
 
+import weddingSong from '@/assets/music/wedding-song.mp3';
+
 const MusicPlayer: React.FC = () => {
   const { isEntered, isMusicPlaying, toggleMusic, audioRef } = useWedding();
 
@@ -12,7 +14,6 @@ const MusicPlayer: React.FC = () => {
       if (isMusicPlaying) {
         audioRef.current.play().catch((e) => {
           console.error("Autoplay blocked or playback failed:", e);
-          // Autoplay blocked — user can toggle manually
         });
       } else {
         audioRef.current.pause();
@@ -27,11 +28,14 @@ const MusicPlayer: React.FC = () => {
         ref={audioRef} 
         loop 
         preload="auto"
-        onError={(e) => console.error("Audio loading error:", e.currentTarget.error)}
+        onError={(e) => {
+          console.error("Audio loading error:", e);
+          console.error("Audio src was:", e.currentTarget.src);
+        }}
         onCanPlay={() => console.log("Audio ready to play")}
         onPlay={() => console.log("Audio started playing")}
       >
-        <source src={import.meta.env.VITE_AUDIO_URL} type="audio/mpeg" />
+        <source src={weddingSong} type="audio/mpeg" />
       </audio>
 
       <AnimatePresence>
