@@ -41,7 +41,7 @@ const Toast = ({ message, onClose }: { message: string; onClose: () => void }) =
 };
 
 const AdminPanel: React.FC = () => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(() => sessionStorage.getItem('admin_auth') === 'true');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [invitados, setInvitados] = useState<Invitado[]>([]);
@@ -58,6 +58,7 @@ const AdminPanel: React.FC = () => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       setAuthenticated(true);
+      sessionStorage.setItem('admin_auth', 'true');
     } else {
       setPasswordError(true);
     }
