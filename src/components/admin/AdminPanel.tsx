@@ -17,10 +17,10 @@ function generateCode(): string {
 }
 
 // ─── Stat Card ─────────────────────────────────────────
-const StatCard = ({ icon: Icon, label, value, accent }: { 
-  icon: React.ElementType; label: string; value: number; accent: string;
+const StatCard = ({ icon: Icon, label, value, accent, className }: { 
+  icon: React.ElementType; label: string; value: number; accent: string; className?: string;
 }) => (
-  <div className="bg-white border border-stone-200 rounded-lg p-5 hover:shadow-md transition-all duration-300 group">
+  <div className={`bg-white border border-stone-200 rounded-lg p-5 hover:shadow-md transition-all duration-300 group ${className || ''}`}>
     <div className="flex items-center gap-3 mb-3">
       <div className={`w-9 h-9 rounded-lg ${accent} flex items-center justify-center`}>
         <Icon className="w-4 h-4 text-white" />
@@ -346,12 +346,12 @@ const AdminPanel: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-4">
           <StatCard icon={Users} label="Total" value={stats.total} accent="bg-stone-500" />
           <StatCard icon={UserCheck} label="Confirmados" value={stats.confirmados} accent="bg-emerald-500" />
           <StatCard icon={UserX} label="No Asisten" value={stats.noAsisten} accent="bg-red-400" />
           <StatCard icon={Clock} label="Pendientes" value={stats.pendientes} accent="bg-amber-500" />
-          <StatCard icon={Users} label="Personas" value={stats.totalPersonas} accent="bg-blue-400" />
+          <StatCard className="col-span-2 sm:col-span-1" icon={Users} label="Personas" value={stats.totalPersonas} accent="bg-blue-400" />
         </div>
 
         {/* Progress Bar */}
@@ -440,7 +440,7 @@ const AdminPanel: React.FC = () => {
                 autoFocus
               />
             </div>
-            <div className="w-36">
+            <div className="w-full sm:w-36">
               <label className="block text-xs uppercase tracking-widest text-stone-400 mb-2">Pases extras</label>
               <select
                 value={newExtras}
@@ -635,8 +635,8 @@ const AdminPanel: React.FC = () => {
               </tbody>
             </table>
             {totalPages > 1 && (
-              <div className="px-5 py-4 border-t border-stone-100 bg-stone-50/50 flex items-center justify-between">
-                <p className="text-xs text-stone-500">
+              <div className="px-5 py-4 border-t border-stone-100 bg-stone-50/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-xs text-stone-500 text-center sm:text-left">
                   Mostrando del {(currentPage - 1) * ITEMS_PER_PAGE + 1} al {Math.min(currentPage * ITEMS_PER_PAGE, filteredInvitados.length)} de {filteredInvitados.length} invitados
                 </p>
                 <div className="flex items-center gap-1">
