@@ -16,11 +16,28 @@ export interface EventDetail {
 }
 
 export interface RSVPData {
-  name: string;
-  email: string;
-  attending: 'yes' | 'no' | null;
-  guests: number;
-  dietaryRestrictions?: string;
+  telefono: string;
+  asistira: 'yes' | 'no' | null;
+  numInvitados: number;
+  nombresAcompanantes: string[];
+  tieneRestricciones: boolean | null;
+  restricciones: string;
+  mensaje: string;
+}
+
+export interface Invitado {
+  id: string;
+  nombre: string;
+  maxInvitados: number;
+  confirmado: boolean;
+  asistira: 'yes' | 'no' | null;
+  telefono: string;
+  numInvitados: number;
+  nombresAcompanantes: string[];
+  tieneRestricciones: boolean | null;
+  restricciones: string;
+  mensaje: string;
+  fechaConfirmacion?: string;
 }
 
 export interface GalleryImage {

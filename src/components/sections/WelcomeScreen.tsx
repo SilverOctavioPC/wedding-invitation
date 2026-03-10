@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useWedding } from '@/context';
 import { COUPLE_NAMES } from '@/constants';
 import GoldenParticles from '@/components/ui/GoldenParticles';
-import { CornerOrnament, DividerOrnament } from '@/components/ui/WeddingOrnaments';
+import { CornerOrnament } from '@/components/ui/WeddingOrnaments';
 
 const WelcomeScreen: React.FC = () => {
   const { isEntered, enterSite } = useWedding();
@@ -15,29 +15,23 @@ const WelcomeScreen: React.FC = () => {
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0, 
-              scale: 1.05,
-              transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } 
+              y: '-100vh',
+              transition: { duration: 1.4, ease: [0.76, 0, 0.24, 1] } 
             }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-wedding-beige bg-noise"
             onTouchMove={(e) => e.preventDefault()}
         >
-          {/* Textured Paper Background */}
-          <div className="absolute inset-0 bg-wedding-beige">
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-wedding-gold/10" />
-          </div>
+          {/* Subtle vignette/gradient */}
+          <div className="absolute inset-0 bg-radial-[at_center] from-transparent to-wedding-charcoal/5" />
 
-          {/* Golden Floating Particles - Reduced density for elegance */}
-          <div className="absolute inset-0 opacity-60">
+          {/* Golden Floating Particles */}
+          <div className="absolute inset-0 opacity-40">
              <GoldenParticles />
           </div>
 
-          {/* Frame & Ornaments */}
-          <div className="absolute inset-0 p-6 md:p-12 pointer-events-none">
-            <div className="w-full h-full border border-wedding-gold/20 relative">
-               <div className="absolute inset-[4px] border border-wedding-gold/10"></div>
-               
-               {/* Animated Corners */}
+          {/* Minimal Frame */}
+          <div className="absolute inset-0 p-4 sm:p-8 pointer-events-none opacity-60">
+            <div className="w-full h-full border-[0.5px] border-wedding-olive/30 relative">
                <div className="absolute top-0 left-0"><CornerOrnament /></div>
                <div className="absolute top-0 right-0 rotate-90"><CornerOrnament /></div>
                <div className="absolute bottom-0 left-0 -rotate-90"><CornerOrnament /></div>
@@ -45,64 +39,87 @@ const WelcomeScreen: React.FC = () => {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
-            className="text-center px-6 relative z-10 flex flex-col items-center"
-          >
-            <p className="font-sans text-xs md:text-sm tracking-[0.4em] uppercase text-wedding-olive/80 mb-6 md:mb-8 font-medium">
-              Estás invitado a nuestra boda
-            </p>
-
-            <h1 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-wedding-gold via-yellow-600 to-wedding-gold mb-8 leading-tight drop-shadow-sm">
-              {COUPLE_NAMES.bride}
-              <br className="sm:hidden" />
-              <span className="font-serif italic text-2xl sm:text-5xl md:text-6xl text-wedding-olive mx-3 sm:mx-4 align-middle font-light">&</span>
-              <br className="sm:hidden" />
-              {COUPLE_NAMES.groom}
-            </h1>
-
-            {/* Central Ornament */}
-            <motion.div 
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 1, duration: 1 }}
-              className="mb-8"
+          <div className="w-full max-w-7xl px-6 md:px-12 relative z-10 flex flex-col items-center justify-center h-full">
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 1.8, ease: "easeOut" }}
+              className="text-center flex flex-col items-center w-full"
             >
-              <DividerOrnament className="text-wedding-gold/40 w-48 md:w-64" />
+              <div className="overflow-hidden mb-6">
+                <motion.p 
+                  initial={{ y: 50 }}
+                  animate={{ y: 0 }}
+                  transition={{ delay: 0.5, duration: 1, ease: [0.33, 1, 0.68, 1] }}
+                  className="font-sans text-[10px] sm:text-xs tracking-[0.5em] uppercase text-wedding-charcoal/50 font-light"
+                >
+                  Estás invitado a celebrar
+                </motion.p>
+              </div>
+
+              {/* Editorial Typography Container */}
+              <div className="relative flex flex-col items-center justify-center my-8 sm:my-12 w-full select-none">
+                
+                <motion.h1 
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-display text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] text-wedding-charcoal leading-[0.8] tracking-tight relative z-20 text-center"
+                >
+                  {COUPLE_NAMES.bride.toUpperCase()}
+                </motion.h1>
+
+                <motion.span 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.4, duration: 2, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-serif italic text-6xl sm:text-8xl md:text-[10rem] lg:text-[14rem] text-wedding-gold/60 z-10 font-light mix-blend-multiply"
+                >
+                  &
+                </motion.span>
+
+                <motion.h1 
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-display text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] text-wedding-charcoal leading-[0.8] tracking-tight relative z-20 mt-4 sm:mt-8 text-center"
+                >
+                  {COUPLE_NAMES.groom.toUpperCase()}
+                </motion.h1>
+
+              </div>
+
+              <div className="overflow-hidden mt-6 mb-16">
+                <motion.p
+                  initial={{ y: -50 }}
+                  animate={{ y: 0 }}
+                  transition={{ delay: 1.6, duration: 1, ease: [0.33, 1, 0.68, 1] }}
+                  className="font-serif italic text-xl md:text-2xl text-wedding-charcoal/80 tracking-wide"
+                >
+                  30 de Julio, 2026
+                </motion.p>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.2, duration: 1 }}
+                className="mt-8"
+              >
+                <button
+                  onClick={enterSite}
+                  className="group relative flex items-center justify-center h-28 w-28 sm:h-40 sm:w-40 rounded-full border-[0.5px] border-wedding-olive/40 hover:border-wedding-olive transition-colors duration-700 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-wedding-olive/5 transform scale-0 group-hover:scale-100 transition-transform duration-700 ease-[0.33,1,0.68,1] rounded-full" />
+                  <span className="relative z-10 font-sans text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] uppercase text-wedding-olive group-hover:text-wedding-charcoal transition-colors duration-500 w-full text-center px-2">
+                    Descubrir<br/>Invitación
+                  </span>
+                </button>
+              </motion.div>
             </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="font-serif italic text-lg md:text-xl text-wedding-charcoal/70 mb-12 tracking-wide"
-            >
-              30 de Julio, 2026
-            </motion.p>
-
-            <motion.button
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2, duration: 0.8 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={enterSite}
-              className="group relative px-12 py-4 bg-transparent overflow-hidden rounded-sm transition-all duration-300"
-            >
-              {/* Button Background & Border */}
-               <div className="absolute inset-0 border border-wedding-olive/30 group-hover:border-wedding-olive/60 transition-colors duration-500"></div>
-               <div className="absolute inset-0 bg-wedding-olive/5 group-hover:bg-wedding-olive/10 transition-colors duration-500"></div>
-               
-               {/* Pulsing Glow */}
-               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl bg-wedding-gold/20"></div>
-
-              <span className="relative z-10 font-sans text-xs tracking-[0.3em] uppercase text-wedding-olive font-semibold group-hover:text-wedding-charcoal transition-colors duration-300">
-                Abrir Invitación
-              </span>
-            </motion.button>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

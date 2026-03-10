@@ -23,7 +23,7 @@ const HeroSection: React.FC = () => {
           loading="eager"
         />
         {/* Gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80" />
       </motion.div>
 
       {/* Content with parallax */}

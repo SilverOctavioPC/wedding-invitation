@@ -3,40 +3,64 @@ import { useCountdown } from '@/hooks/useCountdown';
 import { WEDDING_DATE } from '@/constants';
 import { motion } from 'framer-motion';
 
-const TimeUnit = ({ value, label }: { value: number; label: string }) => (
-  <div className="flex flex-col items-center mx-2 md:mx-6">
-    <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border border-wedding-olive/30 bg-white shadow-sm rounded-sm mb-2">
-      <span className="font-display text-2xl md:text-4xl text-wedding-charcoal">
+const TimeUnit = ({ value, label, showSeparator = true }: { value: number; label: string; showSeparator?: boolean }) => (
+  <div className="flex items-center">
+    <div className="flex flex-col items-center">
+      <span className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] text-wedding-charcoal leading-none tracking-tighter">
         {String(value).padStart(2, '0')}
       </span>
+      <span className="font-sans text-[9px] sm:text-[10px] md:text-xs text-wedding-olive/70 tracking-[0.4em] uppercase mt-4 sm:mt-6">
+        {label}
+      </span>
     </div>
-    <span className="font-serif italic text-xs md:text-sm text-wedding-olive tracking-widest lowercase">
-      {label}
-    </span>
+    
+    {showSeparator && (
+      <div className="mx-4 sm:mx-6 md:mx-10 lg:mx-14 font-serif text-2xl sm:text-3xl md:text-5xl text-wedding-gold/30 font-light -mt-8 sm:-mt-10">
+        :
+      </div>
+    )}
   </div>
 );
 
 const Countdown: React.FC = () => {
   const timeLeft = useCountdown(WEDDING_DATE);
 
+  // If the date has passed
+  if (timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0) {
+      return null;
+  }
+
   return (
-    <section className="py-16 md:py-20 px-4 bg-wedding-beige flex flex-col items-center justify-center">
+    <section className="py-24 md:py-32 px-4 bg-wedding-beige bg-noise flex flex-col items-center justify-center overflow-hidden border-t-[0.5px] border-b-[0.5px] border-wedding-olive/10 relative">
+      
+      {/* Background Ornament */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-wedding-gold/5 rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] border border-wedding-gold/5 rounded-full pointer-events-none" />
+
       <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="text-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="text-center relative z-10 w-full max-w-5xl"
       >
-        <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-wedding-olive mb-8 md:mb-10 italic px-2">
-          Contando los segundos para el gran día
-        </h3>
+        <div className="overflow-hidden mb-12 sm:mb-16 md:mb-20">
+            <motion.h3 
+              initial={{ y: 30 }}
+              whileInView={{ y: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              className="font-serif italic text-2xl sm:text-3xl md:text-4xl text-wedding-charcoal/80 font-light"
+            >
+              La espera casi termina
+            </motion.h3>
+        </div>
         
-        <div className="flex justify-center flex-wrap">
+        <div className="flex justify-center items-center flex-wrap gap-y-12 sm:gap-y-16">
           <TimeUnit value={timeLeft.days} label="días" />
           <TimeUnit value={timeLeft.hours} label="horas" />
           <TimeUnit value={timeLeft.minutes} label="minutos" />
-          <TimeUnit value={timeLeft.seconds} label="segundos" />
+          <TimeUnit value={timeLeft.seconds} label="segundos" showSeparator={false} />
         </div>
       </motion.div>
     </section>
