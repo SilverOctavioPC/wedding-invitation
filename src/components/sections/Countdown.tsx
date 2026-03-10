@@ -56,7 +56,7 @@ const Countdown: React.FC = () => {
             </motion.h3>
         </div>
         
-        <div className="flex justify-center items-center flex-wrap gap-y-12 sm:gap-y-16">
+        <div className="flex justify-center items-center gap-y-12 sm:gap-y-16">
           <TimeUnit value={timeLeft.days} label="días" />
           <TimeUnit value={timeLeft.hours} label="horas" />
           <TimeUnit value={timeLeft.minutes} label="minutos" />
