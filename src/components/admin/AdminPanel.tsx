@@ -49,7 +49,7 @@ const AdminPanel: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [newNombre, setNewNombre] = useState('');
-  const [newMax, setNewMax] = useState(2);
+  const [newExtras, setNewExtras] = useState(1);
   const [creating, setCreating] = useState(false);
   const [selectedInvitado, setSelectedInvitado] = useState<Invitado | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -79,7 +79,7 @@ const AdminPanel: React.FC = () => {
     const code = generateCode();
     const success = await createInvitado(code, {
       nombre: newNombre.trim(),
-      maxInvitados: newMax,
+      maxInvitados: newExtras + 1,
       confirmado: false,
       asistira: null,
       telefono: '',
@@ -91,7 +91,7 @@ const AdminPanel: React.FC = () => {
     });
     if (success) {
       setNewNombre('');
-      setNewMax(2);
+      setNewExtras(1);
       setShowForm(false);
       setToast('Invitado creado exitosamente');
       await fetchInvitados();
@@ -255,14 +255,14 @@ const AdminPanel: React.FC = () => {
                 autoFocus
               />
             </div>
-            <div className="w-32">
-              <label className="block text-xs uppercase tracking-widest text-stone-400 mb-2">Max Inv.</label>
+            <div className="w-36">
+              <label className="block text-xs uppercase tracking-widest text-stone-400 mb-2">Pases extras</label>
               <select
-                value={newMax}
-                onChange={(e) => setNewMax(Number(e.target.value))}
+                value={newExtras}
+                onChange={(e) => setNewExtras(Number(e.target.value))}
                 className="w-full border-b-2 border-stone-200 py-2.5 text-stone-800 focus:outline-none focus:border-amber-500 bg-transparent"
               >
-                {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                {[0,1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
               </select>
             </div>
             <button
@@ -331,7 +331,7 @@ const AdminPanel: React.FC = () => {
                 <tr className="border-b border-stone-100 bg-stone-50/50">
                   <th className="text-left px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Nombre</th>
                   <th className="text-left px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Código</th>
-                  <th className="text-center px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Max</th>
+                  <th className="text-center px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Pases</th>
                   <th className="text-center px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Estado</th>
                   <th className="text-center px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Personas</th>
                   <th className="text-right px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium">Acciones</th>
