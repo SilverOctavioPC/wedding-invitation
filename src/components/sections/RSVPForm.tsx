@@ -14,7 +14,7 @@ const RSVPForm: React.FC = () => {
   const [formData, setFormData] = useState<RSVPData>({
     telefono: '',
     asistira: null,
-    numInvitados: 1,
+    numInvitados: 0,
     nombresAcompanantes: [],
     tieneRestricciones: null,
     restricciones: '',
@@ -47,7 +47,7 @@ const RSVPForm: React.FC = () => {
       setInvitado(data);
       setFormData(prev => ({
         ...prev,
-        numInvitados: 1,
+        numInvitados: data.maxInvitados === 1 ? 1 : 0,
         nombresAcompanantes: [],
       }));
       setStatus('idle');
@@ -58,7 +58,7 @@ const RSVPForm: React.FC = () => {
 
   // ─── Update companion name fields when numInvitados changes ──
   useEffect(() => {
-    const numCompanions = formData.numInvitados - 1;
+    const numCompanions = Math.max(0, formData.numInvitados - 1);
     setFormData(prev => {
       const currentNames = [...prev.nombresAcompanantes];
       if (numCompanions > currentNames.length) {
@@ -94,6 +94,10 @@ const RSVPForm: React.FC = () => {
     }
 
     if (formData.asistira === 'yes') {
+      if (formData.numInvitados === 0) {
+        setStatus('error');
+        return;
+      }
       const emptyCompanion = formData.nombresAcompanantes.some(n => !n.trim());
       if (formData.numInvitados > 1 && emptyCompanion) {
         setStatus('error');
@@ -112,6 +116,15 @@ const RSVPForm: React.FC = () => {
 
     if (success) {
       setStatus('success');
+      setTimeout(() => {
+        const element = document.getElementById('rsvp-section');
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
     } else {
       setStatus('error');
     }
@@ -120,7 +133,7 @@ const RSVPForm: React.FC = () => {
   // ─── Loading State ─────────────────────────────────────
   if (status === 'loading') {
     return (
-      <section className="py-24 bg-white text-center">
+      <section id="rsvp-section" className="py-24 bg-white text-center">
         <Loader2 className="w-8 h-8 animate-spin text-wedding-olive mx-auto" />
         <p className="mt-4 font-sans text-sm text-gray-500">Cargando tu invitación...</p>
       </section>
@@ -130,7 +143,7 @@ const RSVPForm: React.FC = () => {
   // ─── Invalid Code ──────────────────────────────────────
   if (status === 'invalid-code') {
     return (
-      <section className="py-24 bg-white text-center px-6">
+      <section id="rsvp-section" className="py-24 bg-white text-center px-6">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -168,7 +181,7 @@ const RSVPForm: React.FC = () => {
   // ─── Success State ─────────────────────────────────────
   if (status === 'success') {
     return (
-      <section className="py-16 md:py-24 bg-white text-center px-6 min-h-[60vh] flex items-center justify-center">
+      <section id="rsvp-section" className="py-16 md:py-24 bg-white text-center px-6 min-h-[60vh] flex items-center justify-center">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -225,7 +238,7 @@ const RSVPForm: React.FC = () => {
 
   // ─── Main Form ─────────────────────────────────────────
   return (
-    <section className="py-16 md:py-24 bg-white relative">
+    <section id="rsvp-section" className="py-16 md:py-24 bg-white relative">
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -295,28 +308,43 @@ const RSVPForm: React.FC = () => {
                 transition={{ duration: 0.4, ease: 'easeOut' }}
                 className="overflow-hidden space-y-8"
               >
-                {/* Número de invitados */}
-                <div className="flex flex-col">
-                  <label className="font-sans text-xs uppercase tracking-widest text-gray-500 mb-2">
-                    ¿Cuántas personas asistirán? (incluyéndote) <span className="text-red-400">*</span>
-                  </label>
-                  <div className="flex gap-3 mt-2">
-                    {Array.from({ length: invitado.maxInvitados }, (_, i) => i + 1).map((num) => (
-                      <button
-                        key={num}
-                        type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, numInvitados: num }))}
-                        className={`w-12 h-12 border transition-all duration-300 font-serif text-lg ${
-                          formData.numInvitados === num
-                            ? 'bg-wedding-olive text-white border-wedding-olive'
-                            : 'border-gray-300 text-gray-500 hover:border-wedding-olive'
+                {invitado.maxInvitados > 1 && (
+                  <div className="bg-white/60 border border-wedding-sand rounded px-4 py-3 text-center mb-6">
+                    <p className="font-sans text-sm text-wedding-charcoal">
+                      Tienes <strong>{invitado.maxInvitados - 1}</strong> {invitado.maxInvitados - 1 === 1 ? 'pase extra' : 'pases extras'} para acompañantes
+                    </p>
+                  </div>
+                )}
+                {invitado.maxInvitados > 1 && (
+                  <div className="flex flex-col">
+                    <label className="font-sans text-xs uppercase tracking-widest text-gray-500 mb-2">
+                      ¿Cuántos acompañantes llevarás? <span className="text-red-400">*</span>
+                    </label>
+                    <div className="relative mt-2">
+                      <select
+                        value={formData.numInvitados}
+                        onChange={(e) => setFormData(prev => ({ ...prev, numInvitados: Number(e.target.value) }))}
+                        className={`w-full appearance-none bg-transparent border-b-2 py-3 pr-8 focus:outline-none transition-colors font-serif text-lg cursor-pointer ${
+                          formData.numInvitados === 0 
+                            ? 'border-gray-300 text-gray-400 focus:border-wedding-olive' 
+                            : 'border-wedding-olive text-wedding-charcoal'
                         }`}
                       >
-                        {num}
-                      </button>
-                    ))}
+                        <option value={0} disabled>Selecciona una opción...</option>
+                        {Array.from({ length: invitado.maxInvitados }, (_, i) => (
+                          <option key={i} value={i + 1} className="text-wedding-charcoal">
+                            {i === 0 ? 'Iré solo' : i === 1 ? '1 acompañante' : `${i} acompañantes`}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Nombres de acompañantes */}
                 <AnimatePresence>
