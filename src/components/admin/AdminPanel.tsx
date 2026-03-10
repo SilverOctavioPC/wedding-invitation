@@ -3,7 +3,7 @@ import { Invitado } from '@/types';
 import { getAllInvitados, createInvitado, deleteInvitado } from '@/lib/firebase';
 import { 
   Users, UserCheck, UserX, Clock, Plus, Trash2, Copy, 
-  Loader2, LogIn, Download, Search, RefreshCw, Eye, Heart, X, CheckCircle, Filter, ChevronUp, ChevronDown
+  Loader2, LogIn, Download, Search, RefreshCw, Eye, Heart, X, CheckCircle, Filter, ChevronUp, ChevronDown, MessageSquare, AlertTriangle, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 
@@ -48,7 +48,7 @@ const AdminPanel: React.FC = () => {
   const [invitados, setInvitados] = useState<Invitado[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'confirmed' | 'declined' | 'pending'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'confirmed' | 'declined' | 'pending' | 'attention'>('all');
   const [showForm, setShowForm] = useState(false);
   const [newNombre, setNewNombre] = useState('');
   const [newExtras, setNewExtras] = useState(1);
@@ -59,6 +59,9 @@ const AdminPanel: React.FC = () => {
   type SortField = 'nombre' | 'pases' | 'estado' | null;
   const [sortField, setSortField] = useState<SortField>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,6 +154,7 @@ const AdminPanel: React.FC = () => {
     if (statusFilter === 'confirmed') result = result.filter(i => i.asistira === 'yes');
     else if (statusFilter === 'declined') result = result.filter(i => i.asistira === 'no');
     else if (statusFilter === 'pending') result = result.filter(i => !i.confirmado);
+    else if (statusFilter === 'attention') result = result.filter(i => i.mensaje || i.restricciones);
 
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -181,6 +185,16 @@ const AdminPanel: React.FC = () => {
 
     return result;
   }, [invitados, searchQuery, statusFilter, sortField, sortDirection]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, sortField, sortDirection]);
+
+  const totalPages = Math.ceil(filteredInvitados.length / ITEMS_PER_PAGE);
+  const paginatedInvitados = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredInvitados.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredInvitados, currentPage]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -264,13 +278,45 @@ const AdminPanel: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
           <StatCard icon={Users} label="Total" value={stats.total} accent="bg-stone-500" />
           <StatCard icon={UserCheck} label="Confirmados" value={stats.confirmados} accent="bg-emerald-500" />
           <StatCard icon={UserX} label="No Asisten" value={stats.noAsisten} accent="bg-red-400" />
           <StatCard icon={Clock} label="Pendientes" value={stats.pendientes} accent="bg-amber-500" />
           <StatCard icon={Users} label="Personas" value={stats.totalPersonas} accent="bg-blue-400" />
         </div>
+
+        {/* Progress Bar */}
+        {stats.total > 0 && (
+          <div className="bg-white border border-stone-200 rounded-lg p-5 mb-8 shadow-sm">
+            <div className="flex justify-between text-xs font-medium text-stone-500 mb-2">
+              <span>Progreso de Confirmaciones</span>
+              <span>{Math.round((stats.confirmados / stats.total) * 100)}% Confirmado</span>
+            </div>
+            <div className="w-full h-3 bg-stone-100 rounded-full overflow-hidden flex">
+              <div 
+                style={{ width: `${(stats.confirmados / stats.total) * 100}%` }} 
+                className="bg-emerald-500 h-full transition-all duration-500" 
+                title={`${stats.confirmados} Confirmados`}
+              />
+              <div 
+                style={{ width: `${(stats.noAsisten / stats.total) * 100}%` }} 
+                className="bg-red-400 h-full transition-all duration-500" 
+                title={`${stats.noAsisten} No Asisten`}
+              />
+              <div 
+                style={{ width: `${(stats.pendientes / stats.total) * 100}%` }} 
+                className="bg-amber-400 h-full transition-all duration-500" 
+                title={`${stats.pendientes} Pendientes`}
+              />
+            </div>
+            <div className="flex gap-4 mt-3 text-[10px] uppercase tracking-widest text-stone-400 justify-center">
+              <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Confirman</div>
+              <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-400"></span> No asistirán</div>
+              <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Pendientes</div>
+            </div>
+          </div>
+        )}
 
         {/* Actions Bar */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -294,7 +340,7 @@ const AdminPanel: React.FC = () => {
             <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" />
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as 'all' | 'confirmed' | 'pending' | 'declined')}
+              onChange={(e) => setStatusFilter(e.target.value as 'all' | 'confirmed' | 'declined' | 'pending' | 'attention')}
               className="w-full sm:w-auto pl-11 pr-10 py-3 bg-white border border-stone-200 rounded-lg text-sm text-stone-700 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100 transition-all cursor-pointer appearance-none"
               style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a8a29e' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.5rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em' }}
             >
@@ -302,6 +348,7 @@ const AdminPanel: React.FC = () => {
               <option value="confirmed">Confirmados</option>
               <option value="pending">Pendientes</option>
               <option value="declined">No asisten</option>
+              <option value="attention">⚠️💬 Atención requerida</option>
             </select>
           </div>
         </div>
@@ -407,6 +454,7 @@ const AdminPanel: React.FC = () => {
             <table className="w-full text-sm min-w-[640px]">
               <thead>
                 <tr className="border-b border-stone-100 bg-stone-50/50">
+                  <th className="text-center px-4 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium w-12">#</th>
                   <th 
                     className="text-left px-5 py-4 text-[10px] uppercase tracking-widest text-stone-400 font-medium cursor-pointer hover:bg-stone-100 transition-colors group select-none"
                     onClick={() => handleSort('nombre')}
@@ -431,8 +479,8 @@ const AdminPanel: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredInvitados.length === 0 ? (
-                  <tr><td colSpan={6} className="text-center py-16 text-stone-400">
+                {paginatedInvitados.length === 0 ? (
+                  <tr><td colSpan={7} className="text-center py-16 text-stone-400">
                     {invitados.length === 0 ? (
                       <div>
                         <Users className="w-10 h-10 mx-auto mb-3 text-stone-300" />
@@ -442,9 +490,18 @@ const AdminPanel: React.FC = () => {
                     ) : 'Sin resultados para tu búsqueda'}
                   </td></tr>
                 ) : (
-                  filteredInvitados.map((inv) => (
+                  paginatedInvitados.map((inv, index) => (
                     <tr key={inv.id} className="border-b border-stone-50 last:border-b-0 hover:bg-amber-50/30 transition-colors">
-                      <td className="px-5 py-4 text-stone-800 font-medium">{inv.nombre}</td>
+                      <td className="px-4 py-4 text-center text-stone-400 text-xs font-mono">
+                        {(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-stone-800 font-medium">{inv.nombre}</span>
+                          {inv.restricciones && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" title="Tiene restricciones alimenticias" />}
+                          {inv.mensaje && <MessageSquare className="w-3.5 h-3.5 text-blue-400" title="Dejó un mensaje" />}
+                        </div>
+                      </td>
                       <td className="px-5 py-4 font-mono text-xs text-stone-400">{inv.id}</td>
                       <td className="px-5 py-4 text-center text-stone-500">{inv.maxInvitados}</td>
                       <td className="px-5 py-4 text-center">
@@ -485,6 +542,32 @@ const AdminPanel: React.FC = () => {
                 )}
               </tbody>
             </table>
+            {totalPages > 1 && (
+              <div className="px-5 py-4 border-t border-stone-100 bg-stone-50/50 flex items-center justify-between">
+                <p className="text-xs text-stone-500">
+                  Mostrando del {(currentPage - 1) * ITEMS_PER_PAGE + 1} al {Math.min(currentPage * ITEMS_PER_PAGE, filteredInvitados.length)} de {filteredInvitados.length} invitados
+                </p>
+                <div className="flex items-center gap-1">
+                  <button 
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <span className="text-xs font-medium text-stone-600 px-3">
+                    Página {currentPage} de {totalPages}
+                  </span>
+                  <button 
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="p-1.5 rounded-lg border border-stone-200 text-stone-500 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
