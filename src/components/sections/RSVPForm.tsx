@@ -39,17 +39,25 @@ const RSVPForm: React.FC = () => {
         setStatus('invalid-code');
         return;
       }
-      if (data.confirmado) {
+      // Si ya confirmó y no tiene espacio extra (o si declinó asitir), bloqueamos el formulario.
+      // Pero si confirmó asistir y le aumentaron los pases (maxInvitados > numInvitados), le permitimos editar.
+      if (data.confirmado && (data.asistira === 'no' || (data.numInvitados || 0) >= data.maxInvitados)) {
         setInvitado(data);
         setStatus('already-confirmed');
         return;
       }
+
       setInvitado(data);
-      setFormData(prev => ({
-        ...prev,
-        numInvitados: data.maxInvitados === 1 ? 1 : 0,
-        nombresAcompanantes: [],
-      }));
+      // Pre-poblar el formulario con sus datos existentes si es que va a re-confirmar acompañantes extra
+      setFormData({
+        telefono: data.telefono || '',
+        asistira: data.asistira || null,
+        numInvitados: data.numInvitados || (data.maxInvitados === 1 ? 1 : 0),
+        nombresAcompanantes: data.nombresAcompanantes || [],
+        tieneRestricciones: data.tieneRestricciones || null,
+        restricciones: data.restricciones || '',
+        mensaje: data.mensaje || '',
+      });
       setStatus('idle');
     };
 

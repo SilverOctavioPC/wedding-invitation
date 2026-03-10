@@ -83,6 +83,17 @@ export async function createInvitado(code: string, data: Omit<Invitado, 'id'>): 
   }
 }
 
+/** Update an invitado (Admin) */
+export async function updateInvitadoAdmin(code: string, data: Partial<Invitado>): Promise<boolean> {
+  try {
+    await updateDoc(doc(db, 'invitados', code), data);
+    return true;
+  } catch (error) {
+    console.error('Error updating invitado (Admin):', error);
+    return false;
+  }
+}
+
 /** Delete an invitado */
 export async function deleteInvitado(code: string): Promise<boolean> {
   try {
